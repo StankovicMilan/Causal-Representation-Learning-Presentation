@@ -1,0 +1,279 @@
+% ============================================================
+% Theory: setup, assumptions and identifiability results
+% ============================================================
+
+\begin{frame}{Formal Setup}
+  \vspace{2ex}
+  \renewcommand{\arraystretch}{2.1}
+  \begin{tabular}{@{}p{3.1cm}l@{}}
+    \textbf{Spaces \& Mixing} &
+      $U = (U_1,\dots,U_p) \in \R^p \;\xrightarrow{\;f\;}\; X = (X_1,\dots,X_n) \in \R^n$ \\
+    \textbf{Observational} &
+      $X = f(U), \qquad U \sim \PP_U = \prod_{i=1}^p \PP\big(U_i \mid U_{\pa_\cG(i)}\big)$ \\
+    \textbf{\emph{Soft} Intervention $I$} &
+      $\PP_U^I = \PP^I\big(U_j \mid U_{\pa_\cG(j)}\big) \prod_{i \neq j} \PP\big(U_i \mid U_{\pa_\cG(i)}\big), \qquad T_\cG(I) = j$ \\
+    \textbf{Unpaired Data} &
+      $\cD, \cD^{I_1},\dots,\cD^{I_K} \;\; (K \geq p), \qquad [p] \subseteq \{T_\cG(I_k)\}_{k=1}^K$
+  \end{tabular}
+  \sep
+  \textbf{Special Case ($\cG = \emptyset$):} \;
+  $\PP_U^{I_k} = \prod_{i=1}^p \PP^{I_k}(U_i)$ \; recovers \emph{nonlinear ICA} (auxiliary variable $k$).
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Our Goal}
+  \vspace{2ex}
+  \begin{itemize}
+    \item \textbf{Given:} Samples from $\cD, \cD^{I_1},\dots,\cD^{I_K}$.
+    \item \textbf{Unknowns:} $p = \dim(U)$, latents $U$, DAG $\cG$, and targets $T_\cG(I_k)$.
+  \end{itemize}
+  \sep
+  \begin{statement}{Definition 1 (CD-Equivalence)}
+    We say $\langle U,\cG,I_1,\dots,I_K\rangle \simCD \langle \hU,\hG,\hI_1,\dots,\hI_K\rangle$ if for some permutation $\pi$ and $\lambda_{\pi(i)} \neq 0$:
+  \end{statement}
+  \[
+    \hU_i = \lambda_{\pi(i)} U_{\pi(i)} + b_{\pi(i)} \;\; (\forall i \in [p]), \qquad
+    \hG = \cG_\pi, \qquad
+    \hI_k = (I_k)_\pi \;\; (\forall k \in [K])
+  \]
+  \sep
+  \centering
+  \textbf{Goal:} Identify $p$ and $\langle U,\cG,I_1,\dots,I_K\rangle$ up to $\simCD$ from $\cD, \cD^{I_1},\dots,\cD^{I_K}$.
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{The Assumptions --- 1}
+  \vspace{1ex}
+  \begin{statement}{Assumption 1}
+    Let $U$ be a $p$-dimensional random vector. Assume that $\emptyset \neq \suppo(\PP_U) \subseteq \R^p$, and that $f$ is a full row rank polynomial:
+  \end{statement}
+  \[
+    f(U) = \big(U, U^{\otimesbar 2},\dots,U^{\otimesbar d}\big) H + h, \qquad \rank(H) = M \quad (n \geq M)
+  \]
+  \sep
+  \textbf{Examples} ($d = 1$, $p = 2$)
+  \begin{itemize}
+    \item \textbf{Valid (injective):}
+      \[ f(U_1,U_2) = (U_1, U_2, U_1 + U_2) = (U_1,U_2)\begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{pmatrix}, \qquad \rank(H) = 2 = p \]
+    \item \textbf{Invalid (collapses to 1D):}
+      \[ f(U_1,U_2) = (U_1 + U_2,\; 2U_1 + 2U_2) = (U_1,U_2)\begin{pmatrix} 1 & 2 \\ 1 & 2 \end{pmatrix}, \qquad \rank(H) = 1 < p \]
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Reduction to the Linear Case}
+  \vspace{1ex}
+  \begin{statement}{Lemma 1}
+    Under Assumption 1, we can identify $p$ as well as the $U$ up to $\hU = U\Lambda + b$ for some non-singular matrix $\Lambda \in \GL_p(\R)$ and vector $b \in \R^p$.
+  \end{statement}
+  \sep
+  \textbf{The Polynomial Degree Trick}\par\smallskip
+  \textbf{Step 1.} \textbf{Expand a candidate $(\PP_{\hU}, \hat f)$ and the true $f$ as polynomials:}
+  \begin{gather*}
+    \big(\hU, \hU^{\otimesbar 2},\dots,\hU^{\otimesbar d}\big)\hat H + \hat h = \hat f(\hU) = X = f(U) = \big(U, U^{\otimesbar 2},\dots,U^{\otimesbar d}\big) H + h \\
+    \Rightarrow\quad \big(\hU, \hU^{\otimesbar 2},\dots,\hU^{\otimesbar d}\big) = \big(U, U^{\otimesbar 2},\dots,U^{\otimesbar d}\big) H \hat H^{\dagger} + (h - \hat h)\hat H^{\dagger}
+  \end{gather*}
+  \textbf{Step 2.} \textbf{Express $\hU$ and $U$ as polynomials of each other:}
+  \begin{gather*}
+    \hU = \poly_1(U) \quad\text{and, by symmetry,}\quad U = \poly_2(\hU) \quad\text{therefore}\quad U = \poly_2(\poly_1(U)) \\
+    \text{We conclude}\quad \hU = U\Lambda + b, \qquad \Lambda \in \GL_p(\R)
+  \end{gather*}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Limits of Observational Data}
+  \vspace{1ex}
+  \begin{statement}{Example 4}
+    If the true DAG is empty ($\cG = \emptyset$), observational data alone can be explained by \textbf{any} DAG $\hG$.
+  \end{statement}
+  \sep
+  \textbf{Proof}\par
+  Pick any DAG $\hG$ with topological order $\tau(1),\dots,\tau(p)$ and permute $\hU_{\tau(i)} := U_i$. Since $\cG = \emptyset$, the components of $\hU$ are mutually independent:
+  \[
+    \PP(\hU) = \PP(U) = \prod_{i=1}^p \PP\big(\hU_{\tau(i)}\big)
+    \overset{\text{indep.}}{=} \prod_{i=1}^p \PP\big(\hU_{\tau(i)} \mid \hU_{\pa_{\hG}(\tau(i))}\big).
+  \]
+  \sep
+  \textbf{Takeaway:} $\PP(\hU)$ is Markovian to \emph{every} DAG $\hG$ $\Longrightarrow$ interventions are necessary.
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{The Assumptions --- 2}
+  \vspace{1ex}
+  \begin{statement}{Assumption 2}
+    Intervention $I$ with target $i$ satisfies linear interventional faithfulness if for every $j \in \{i\} \cup \ch_\cG(i)$ with $\pa_\cG(j) \cap \de_\cG(i) = \emptyset$,
+  \end{statement}
+  \[
+    \PP\big(U_j + U_S C^\top\big) \neq \PP^I\big(U_j + U_S C^\top\big) \qquad
+    \forall C \in \R^{|S|}, \quad S = [p] \setminus \big(\{j\} \cup \de_\cG(i)\big).
+  \]
+  \sep\vspace{1.2\baselineskip}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \centering\textbf{Example 1: Linear (Violates A2)}\par\smallskip
+      \begin{tikzpicture}
+        \path (0,0.55) -- (0,-0.6);
+        \node[smallvar] (a) at (0,0) {1}; \node[smallvar] (b) at (1,0) {2};
+        \draw[edge] (a) -- (b);
+        \node at (1.8,0) {$\Longrightarrow$};
+        \node[smallvar] (c) at (2.6,0) {2}; \node[smallvar] (d) at (3.6,0) {1};
+        \draw[edge] (c) -- (d);
+        \node[font=\scriptsize] at (0.5,-0.45) {$\cG$};
+        \node[font=\scriptsize] at (3.1,-0.45) {$\hG$};
+      \end{tikzpicture}\par
+      \raggedright\small
+      $U_1 \sim \cN(0,1)$, \; $U_2 \mid U_1 \sim \cN(U_1,1)$\\
+      $I_1$: mean $0 \mapsto 1$; \; $\hU = (U_2,\, U_2 - U_1)$\\
+      \textbf{Fails} ($C = -1$): $U_2 - U_1 = \varepsilon_2$ cancels $I_1$.
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering\textbf{Example 2: Quadratic (Satisfies A2)}\par\smallskip
+      \begin{tikzpicture}
+        \path (0,0.55) -- (0,-0.6);
+        \node[smallvar] (a) at (0,0) {1}; \node[smallvar] (b) at (1.6,0) {2};
+        \draw[edge] (a) -- node[above,font=\scriptsize] {$\beta U_1^2$} (b);
+        \node[font=\scriptsize] at (0.8,-0.45) {$\cG$ \; ($\beta \neq 0$)};
+      \end{tikzpicture}\par
+      \raggedright\small
+      $U_1 \sim \cN(0,\sigma_1^2)$, \; $U_2 \mid U_1 \sim \cN(\beta U_1^2, \sigma_2^2)$\\
+      $I_1$: variance $\sigma_1^2 \mapsto \sigma_1'^2$\\
+      \textbf{Holds} ($\forall C$): $\EE_\PP[U_2 + CU_1] = \beta\sigma_1^2 \neq \beta\sigma_1'^2$.
+    \end{column}
+  \end{columns}
+  \sep
+  \textbf{Remark:} \emph{Linear additive-noise SCMs generally fail Assumption 2 (handled by separate theory).}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Identifiability Results --- 1}
+  \vspace{1ex}
+  \begin{statement}{Theorem 1}
+    Under Assumption 1 and Assumption 2 for $I_1,\dots,I_K$, we can identify $\langle \hG, \hI_1,\dots,\hI_K\rangle$, where $\hG = \TS(\cG_\pi)$ and $\hI_k = (I_k)_\pi$ for some permutation $\pi$.
+  \end{statement}
+  \sep
+  \textbf{Note:} If time allows, blackboard proof :)
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{What Have We Done So Far?}
+  \vspace{2ex}
+  \textbf{Achieved}
+  \begin{itemize}
+    \item \textbf{Assumption 1 + Lemma 1:} Identify $p$ and reduce to $\hU = U\Lambda + b$.
+    \item \textbf{Assumption 2 + Theorem 1:} Identify $\TS(\cG_\pi)$ and targets $\hI_k = (I_k)_\pi$.
+  \end{itemize}
+  \vspace{1.5ex}
+  \textbf{Still Missing}
+  \begin{itemize}
+    \item \textbf{Exact DAG $\cG_\pi$:} Extra edges remain in $\TS(\cG_\pi)$.
+    \item \textbf{Component-wise $U$:} Recovered only up to ancestral linear mixing.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{The Assumptions --- 3}
+  \vspace{1ex}
+  \begin{statement}{Assumption 3}
+    For every edge $i \to j \in \cG$, there are no constants $c_j, c_k \in \R$ ($k \in S := \pa_\cG(j) \cap \de_\cG(i)$) such that
+  \end{statement}
+  \[
+    U_i \indep U_j + c_j U_i \;\Big|\; \{U_l\}_{l \in \pa_\cG(j) \setminus (S \cup \{i\})},\; \{U_k + c_k U_i\}_{k \in S}.
+  \]
+  \sep
+  \textbf{Observable Case:} Direct edge $1 \to 3$ is identified by standard faithfulness $U_1 \nindep U_3 \mid U_2$.\par
+  \textbf{Example 3: Ancestral Mixing Screens Off $1 \to 3$} \quad ($X = U$, \; $I_k$: Var $1 \mapsto 2$)\par\smallskip
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node[smallvar] (a1) at (0,0) {1}; \node[smallvar] (a2) at (1.5,0.85) {2}; \node[smallvar] (a3) at (3,0) {3};
+    \draw[edge] (a1) -- (a2); \draw[edge] (a2) -- (a3); \draw[edge] (a1) -- (a3);
+    \node[font=\scriptsize,align=center] at (1.5,-0.55) {$\cG$: $U_2 \sim \cN(U_1^2,1)$\\$U_3 \sim \cN((U_1+U_2)^2,1)$};
+    \draw[-{Stealth[length=1.6mm]}] (3.7,0.45) -- (6.1,0.45);
+    \node[font=\scriptsize,above] at (4.9,0.45) {$\hU_2 = U_1 + U_2$};
+    \node[font=\scriptsize,below] at (4.9,0.45) {$\hU_1 = U_1$, \; $\hU_3 = U_3$};
+    \node[smallvar] (b1) at (6.8,0) {1}; \node[smallvar] (b2) at (8.3,0.85) {2}; \node[smallvar] (b3) at (9.8,0) {3};
+    \draw[edge] (b1) -- (b2); \draw[edge] (b2) -- (b3);
+    \draw[cut] (b1) -- node[text=black,font=\scriptsize] {$\times$} (b3);
+    \node[font=\scriptsize,align=center] at (8.3,-0.55) {$\hG$: $\hU_3 \sim \cN(\hU_2^2,1)$\\$\Rightarrow \hU_1 \indep \hU_3 \mid \hU_2$};
+  \end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Identifiability Results --- 2}
+  \vspace{1ex}
+  \begin{statement}{Theorem 2}
+    Under Assumptions 1, 2, 3 for $I_1,\dots,I_K$, we can identify $\langle \hG, \hI_1,\dots,\hI_K\rangle$, where $\hG = \cG_\pi$ and $\hI_k = (I_k)_\pi$ for some permutation $\pi$.
+  \end{statement}
+  \sep
+  \textbf{Achieved}
+  \begin{itemize}
+    \item \textbf{Dimension $p$ \& linear mixing:} $\hU = U\Lambda + b$.
+    \item \textbf{Exact DAG $\cG_\pi$} and intervention targets $\hI_k = (I_k)_\pi$.
+  \end{itemize}
+  \textbf{Still Missing}
+  \begin{itemize}
+    \item \textbf{Component-wise $U$:} Still mixed with upstream ancestors.
+  \end{itemize}
+  \sep
+  \textbf{Did We Fail Without Full CD-Equivalence?}
+  \begin{itemize}
+    \item \textbf{Biology (e.g., cancer pathway):} We recover the exact wiring diagram ($\cG_\pi$) and perturbation targets, \emph{but} ancestral mixing ($\hU_2 = U_2 + cU_1$) can flip the sign, preventing us from reading off activation vs.\ inhibition.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Combinatorial Intervention Extrapolation}
+  \vspace{1ex}
+  \begin{statement}{Theorem 3}
+    Let $I$ combine several interventions among $I_1,\dots,I_K$ with distinct targets. The learned model allows sampling $X = f(U)$ with $U \sim \PP_I$.
+  \end{statement}
+  \sep\vspace{1.2\baselineskip}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \textbf{Why Mixing Cancels in $X$}\par\smallskip
+      $\hU = U\Lambda + b$ preserves causal order of $\cG_\pi$.\par\smallskip
+      Swapping mechanisms in $\hU$ and decoding via $\hat f$ yields the exact interventional distribution $\PP^I_X$.
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \textbf{Biology Payoff}\par\smallskip
+      $p$ single perturbations $\Longrightarrow$ $2^p$ combinations.\par\smallskip
+      Predict joint effects (e.g., growth $I_1$ + DNA-repair $I_2$) on observed genes $X$ without running every lab experiment.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Zhang et al.\ vs.\ von Kügelgen et al.\ (2023)}
+  \vspace{1ex}
+  \textbf{Shared:} Unpaired multi-domain data; both recover exact DAG $\cG_\pi$ and targets $(I_k)_\pi$.
+  \par\smallskip
+  {\small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+    \toprule
+    & \textbf{Zhang et al.\ (2023)} & \textbf{von Kügelgen et al.\ (2023)} \\
+    \midrule
+    Mixing $f$ & \textbf{Parametric:} full-rank polynomial ($n \geq M$) & \textbf{Nonparametric:} smooth diffeomorphism \\
+    Interventions & \textbf{Soft}, $\geq 1$ per node ($K \geq p$) & \textbf{Hard}, 2 distinct per node ($K = 2p$) \\
+    Assumptions & Linear interventional (A2) \& adjacency (A3) & Positive densities \& generic log-density ratios \\
+    Latent Recovery & \textbf{Ancestral linear:} $\hU = U\Lambda + b$ & \textbf{Component-wise:} $\hU_i = h_i(U_{\pi(i)})$ \\
+    Algorithm & Discrepancy-based VAE (Sec.~5) & Purely theoretical \\
+    \bottomrule
+  \end{tabularx}}
+  \par\medskip
+  \textbf{Trade-Off:} Realistic \emph{soft} interventions $\leftrightarrow$ polynomial $f$ \& ancestral mixing; nonparametric $f$ $\leftrightarrow$ \emph{hard} multi-interventions.
+\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Blueprint for a Practical Algorithm}
+  \vspace{1ex}
+  Solve for the smallest $\hat p$, encoder $\hat g : \R^n \to \R^{\hat p}$, DAG $\hG$ (order $1,\dots,\hat p$), and targets $\hI_1,\dots,\hI_{\hat K}$:
+  \begin{enumerate}
+    \setlength{\itemsep}{1.2ex}
+    \item \textbf{Invertible Compression} \emph{(Lemma 1):}\\
+      Minimal $\hat p$ with full-rank polynomial decoder $\hat f$ such that $\hat f(\hat g(X)) = X$ on $\cD \cup \bigcup_k \cD^{I_k}$.
+    \item \textbf{Causal \& Interventional Structure} \emph{(Theorem 1):}\\
+      $\hU = \hat g(X)$ factorizes over $\hG$ in $\cD$; each $\cD^{I_k}$ shifts $\hU_{T_{\hG}(\hI_k)}$ while leaving its non-descendants invariant, with $[\hat p] \subseteq \bigcup_k T_{\hG}(\hI_k)$.
+    \item \textbf{Sparsity} \emph{(Theorems 1 \& 2):}\\
+      Minimize $|\TS(\hG)|$ subject to (1)--(2), then minimize $|\hG|$.
+  \end{enumerate}
+\end{frame}

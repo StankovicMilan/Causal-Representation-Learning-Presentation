@@ -1,0 +1,64 @@
+% ---------- packages ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[scaled=0.92]{helvet}        % Arial-like text font (as in the ETH template)
+\usefonttheme[onlymath]{serif}          % Latin Modern math
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{booktabs,tabularx,array}
+\usepackage{marvosym}                   % \Lightning
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\graphicspath{{figures/}}
+
+% ---------- notation ----------
+\newcommand{\cD}{\mathcal{D}}           % dataset
+\newcommand{\cG}{\mathcal{G}}           % DAG
+\newcommand{\cN}{\mathcal{N}}           % Gaussian
+\newcommand{\cH}{\mathcal{H}}           % RKHS
+\newcommand{\cL}{\mathcal{L}}           % loss
+\newcommand{\hG}{\hat{\cG}}             % estimated DAG
+\newcommand{\TS}{\mathcal{T}\!\mathcal{S}} % transitive closure
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\hU}{\hat{U}}
+\newcommand{\hI}{\hat{I}}
+\newcommand{\hX}{\widehat{X}}
+\newcommand{\hZ}{\widehat{Z}}
+\newcommand{\Xcf}{\widehat{X}}          % virtual counterfactual
+\newcommand{\Ucf}{\widehat{U}}
+\DeclareMathOperator{\pa}{pa}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\de}{de}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\MMD}{MMD}
+\DeclareMathOperator{\KL}{KL}
+\newcommand{\suppo}{\mathring{\operatorname{supp}}}
+\newcommand{\otimesbar}{\mathbin{\bar{\otimes}}}
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\nindep}{\not\!\perp\!\!\!\perp}
+\newcommand{\simCD}{\sim_{\mathrm{CD}}}
+\newcommand{\Ath}{A_\theta}
+
+% ---------- layout helpers ----------
+% horizontal separator rule (the thin black lines of the original deck)
+\newcommand{\sep}{\par\vspace{0.6ex}{\color{black}\hrule height 0.4pt}\vspace{0.8ex}}
+% "Theorem 1." style statement: bold label, italic body
+\newenvironment{statement}[1]{\par\textbf{#1.}\ \itshape}{\par}
+% bold label + text, e.g. \lbl{Intuition:} ...
+\newcommand{\lbl}[1]{\textbf{#1}\ }
+% label + text row with hanging indent; optional arg = label width
+% usage: \row{Data}{...}  or  \row[3.4cm]{Double gene (unseen)}{...}
+\newcommand{\row}[3][2.6cm]{\par\noindent\makebox[#1][l]{\textbf{#2}}%
+  \parbox[t]{\dimexpr\linewidth-#1\relax}{#3}\par\vspace{0.6ex}}
+% DAG styles
+\tikzset{
+  var/.style={circle,draw,thick,minimum size=0.55cm,inner sep=0pt,font=\small},
+  smallvar/.style={circle,draw,minimum size=0.4cm,inner sep=0pt,font=\scriptsize},
+  edge/.style={-{Stealth[length=1.6mm]},thick},
+  cut/.style={-{Stealth[length=1.6mm]},thick,dashed,gray!60},
+}

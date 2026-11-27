@@ -1,0 +1,25 @@
+\documentclass[aspectratio=169,10pt,t]{beamer}
+% Speaker notes: build with `make notes` (adds the notes on a second screen).
+\ifdefined\withnotes
+  \setbeameroption{show notes on second screen=right}
+\fi
+\usetheme{eth}
+\input{preamble}
+
+\title[Identifiability guarantees for causal disentanglement]{Identifiability guarantees for\\causal disentanglement}
+\author{Milan Stankovic, Eugenio Laguna}
+\date{30.11.2026}
+\institute[Student Seminar in Statistics: Representation Learning]{Student Seminar in Statistics: Representation Learning}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\input{slides/01_motivation}   % i.i.d., hard vs soft, CRISPRa
+\input{slides/02_theory}       % setup, assumptions, identifiability results
+\input{slides/03_vae}          % discrepancy-based VAE
+\input{slides/04_application}  % Perturb-seq
+
+\end{document}
