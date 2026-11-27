@@ -1,0 +1,83 @@
+% ETH Zurich style Beamer theme, modelled on the official ETH ODP template.
+% Content slides: plain title top-left, ETH logo + seminar name + date + page in the footer.
+% Title slide: aerial photo with a blue box holding title, authors and date.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeeth}
+
+\RequirePackage{tikz}
+
+% ---------- colours ----------
+\definecolor{ethblue}{HTML}{215CAF}
+\definecolor{ethgray}{HTML}{6F6F6F}
+\definecolor{ethorange}{HTML}{E8A33D}
+\definecolor{ethlightblue}{HTML}{BFD0EA}
+
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=black}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{alerted text}{fg=ethblue}
+\setbeamercolor{footline}{fg=black}
+\setbeamercolor{item}{fg=black}
+
+% ---------- fonts ----------
+\usefonttheme{professionalfonts}
+\setbeamerfont{frametitle}{size=\large,series=\mdseries}
+\setbeamerfont{footline}{size=\fontsize{3.6}{4}\selectfont}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+
+% ---------- geometry (ODP template: 33.87 x 19.05 cm, margins 2.03 cm) ----------
+\setbeamersize{text margin left=0.96cm,text margin right=0.96cm}
+\setbeamertemplate{navigation symbols}{}
+
+% ---------- frame title ----------
+\setbeamertemplate{frametitle}{%
+  \vspace*{0.45cm}%
+  \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle
+  \vspace*{0.25cm}%
+}
+
+% ---------- footer ----------
+\setbeamertemplate{footline}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=west,inner sep=0] at ([xshift=0.96cm,yshift=0.27cm]current page.south west)
+      {\includegraphics[height=0.17cm]{figures/eth_logo.pdf}};
+    \node[anchor=west,inner sep=0,font=\usebeamerfont{footline}] at ([xshift=2.3cm,yshift=0.27cm]current page.south west)
+      {\insertshortinstitute};
+    \node[anchor=east,inner sep=0,font=\usebeamerfont{footline}] at ([xshift=-1.45cm,yshift=0.27cm]current page.south east)
+      {\insertdate};
+    \node[anchor=east,inner sep=0,font=\usebeamerfont{footline}] at ([xshift=-0.96cm,yshift=0.27cm]current page.south east)
+      {\insertframenumber};
+  \end{tikzpicture}%
+}
+
+% ---------- lists ----------
+\setbeamertemplate{itemize item}{\raisebox{0.1ex}{\footnotesize\textbullet}}
+\setbeamertemplate{itemize subitem}{\raisebox{0.1ex}{\scriptsize\textendash}}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setlength{\leftmargini}{1.1em}
+
+% ---------- title page ----------
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    % logo
+    \node[anchor=north west,inner sep=0] at ([xshift=0.96cm,yshift=-0.38cm]current page.north west)
+      {\includegraphics[height=0.32cm]{figures/eth_logo.pdf}};
+    % photo
+    \node[anchor=north west,inner sep=0] at ([xshift=0.96cm,yshift=-1.333cm]current page.north west)
+      {\includegraphics[width=14.08cm,height=6.9cm]{figures/title_photo.jpg}};
+    % blue box
+    \fill[ethblue] ([yshift=-2.88cm]current page.north west) rectangle ++(8.58cm,-3.59cm);
+    \node[anchor=north west,inner sep=0,text width=7.4cm,text=white,align=left]
+      at ([xshift=0.96cm,yshift=-3.30cm]current page.north west)
+      {\fontsize{16}{19}\selectfont\inserttitle};
+    \node[anchor=north west,inner sep=0,text width=7.4cm,text=white,align=left]
+      at ([xshift=0.96cm,yshift=-4.95cm]current page.north west)
+      {\fontsize{8.5}{10.5}\selectfont\insertauthor\\\insertdate};
+    % footer
+    \node[anchor=west,inner sep=0,font=\usebeamerfont{footline}] at ([xshift=0.96cm,yshift=0.27cm]current page.south west)
+      {\insertshortinstitute};
+  \end{tikzpicture}%
+}
+
+\endinput
